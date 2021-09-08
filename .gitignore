@@ -1,0 +1,4 @@
+/.venv
+.terraform*
+*.tfvars
+/ansible/production

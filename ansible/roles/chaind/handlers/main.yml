@@ -1,0 +1,16 @@
+---
+# handlers file for chaind
+- name: daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: enabled-chaind
+  ansible.builtin.systemd:
+    name: chaind
+    state: started
+    enabled: yes
+
+- name: restart-chaind
+  ansible.builtin.service:
+    name: chaind
+    state: restarted

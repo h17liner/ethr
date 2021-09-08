@@ -1,0 +1,9 @@
+---
+- name: set username
+  set_fact:
+    username: 'teku'
+
+- name: install teku
+  include_tasks: "install.yml"
+
+  

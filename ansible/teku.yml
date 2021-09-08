@@ -1,0 +1,6 @@
+---
+- name: Install teku
+  hosts: _teku
+  
+  roles:
+    - teku

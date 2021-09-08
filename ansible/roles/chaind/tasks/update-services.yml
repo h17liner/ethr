@@ -1,0 +1,11 @@
+---
+
+- name: Update service
+  ansible.builtin.template:
+    src: chaind.service.j2
+    dest:  /lib/systemd/system/chaind.service
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - daemon-reload
+    - restart-chaind

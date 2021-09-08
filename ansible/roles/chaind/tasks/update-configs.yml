@@ -1,0 +1,9 @@
+---
+- name: Update config
+  ansible.builtin.template:
+    src: chaind.yml.j2
+    dest: /etc/chaind/chaind.yaml
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - restart-chaind

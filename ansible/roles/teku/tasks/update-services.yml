@@ -1,0 +1,11 @@
+---
+
+- name: Update service
+  ansible.builtin.template:
+    src: teku.service.j2
+    dest:  /lib/systemd/system/teku.service
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+  - daemon-reload
+  - enabled-teku

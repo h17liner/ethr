@@ -1,0 +1,13 @@
+[Unit]
+Description=Chaind stored
+Wants=network-online.target
+After=network-online.target
+[Service]
+User={{ username }}
+Group={{ username }}
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=/usr/local/bin/chaind --base-dir /etc/chaind
+[Install]
+WantedBy=multi-user.target

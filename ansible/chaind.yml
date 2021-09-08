@@ -1,0 +1,6 @@
+---
+- name: Install chaind
+  hosts: _chaind
+  
+  roles:
+    - chaind

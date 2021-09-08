@@ -1,0 +1,13 @@
+[Unit]
+Description=Teku Eth2 Client
+Wants=network-online.target
+After=network-online.target
+[Service]
+User={{ username }}
+Group={{ username }}
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=/usr/local/teku/bin/teku --config-file=/etc/teku.yaml
+[Install]
+WantedBy=multi-user.target

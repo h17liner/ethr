@@ -1,0 +1,7 @@
+---
+- name: set username
+  set_fact:
+    username: 'chaind'
+
+- name: install chaind
+  include_tasks: "install.yml"
