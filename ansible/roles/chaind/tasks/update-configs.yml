@@ -1,4 +1,14 @@
 ---
+- name: Get information about an instance
+  community.aws.rds_instance_info:
+    db_instance_identifier: chaind
+    region: eu-west-2
+  register: chaind_db_host
+  delegate_to: localhost
+
+- debug:
+    msg: "{{chaind_db_host.instances[0].endpoint.address}}"
+
 - name: Update config
   ansible.builtin.template:
     src: chaind.yml.j2

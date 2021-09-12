@@ -1,4 +1,6 @@
-/.venv
+.venv
 .terraform*
 *.tfvars
-/ansible/production
+.vault*
+.idea
+*.out

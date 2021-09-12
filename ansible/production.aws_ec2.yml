@@ -15,6 +15,7 @@ keyed_groups:
 compose:
   ansible_port: 22
   ansible_become: true
+  ansible_user: "'ubuntu'"
   ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand=\"sh -c \"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'\"\""
 
 hostnames:

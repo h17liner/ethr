@@ -30,4 +30,19 @@ variable "octet" {
 }
 
 
+# chaind rds
+variable "chaindb_name" {
+  type = string
+  default = "chaindb"
+}
 
+variable "chaindb_username" {
+  type = string
+  default = "chaindb"
+}
+
+variable "chaindb_password" {
+  type = string
+  default = "chaindb"
+  sensitive   = true
+}

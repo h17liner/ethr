@@ -1,6 +1,0 @@
----
-- name: install openjdk-jre
-  apt:
-    name: openjdk-{{version}}-jre
-    update_cache: yes
-    state: present

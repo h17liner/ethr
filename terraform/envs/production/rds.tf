@@ -11,9 +11,9 @@ module "db" {
   
   allocated_storage    = 5
 
-  name     = "chaindb"
-  username = "chaindb"
-  password = "chaindbchaindb"
+  name     = var.chaindb_name
+  username = var.chaindb_username
+  password = var.chaindb_password
   port     = "5432"
 
   multi_az               = true

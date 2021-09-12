@@ -1,13 +1,7 @@
 ---
-- name: install openjdk
-  apt:
-    name: openjdk-16-jre
-    update_cache: yes
-    state: present
-
 - name: download binary
   get_url:
-    url: https://artifacts.consensys.net/public/teku/raw/names/teku.tar.gz/versions/{{ teku.version }}/teku-{{ teku.version }}.tar.gz
+    url: https://artifacts.consensys.net/public/teku/raw/names/teku.tar.gz/versions/{{ teku_version }}/teku-{{ teku_version }}.tar.gz
     dest: /tmp/teku.tar.gz
 
 - name: unpack
@@ -18,6 +12,6 @@
 
 - name: make current
   ansible.builtin.file:
-    src: /usr/local/teku-{{ teku.version }}
+    src: /usr/local/teku-{{ teku_version }}
     dest: /usr/local/teku
     state: link

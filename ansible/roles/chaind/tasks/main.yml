@@ -1,7 +1,38 @@
 ---
-- name: set username
-  set_fact:
-    username: 'chaind'
+- name: create group
+  ansible.builtin.group:
+    name: "{{ username }}"
+    state: present
 
-- name: install chaind
-  include_tasks: "install.yml"
+- name: create user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    group: "{{ username }}"
+    create_home: false
+    state: present
+
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: /etc/chaind
+    state: directory
+    recurse: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Create logs directory
+  ansible.builtin.file:
+    path: /var/log/chaind
+    state: directory
+    recurse: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: install binary
+  include_tasks: update-binary.yml
+
+- name: update configs
+  include_tasks: update-configs.yml
+
+- name: update services
+  include_tasks: update-services.yml

@@ -69,21 +69,3 @@ module "chaind-instances" {
   )
 }
 
-
-resource "local_file" "inventory" {
-  
-  content = templatefile("${path.module}/../../templates/inventory.tmpl", {
-    chaind-ids=module.chaind-instances.*.id, 
-    chaindb=module.db.db_instance_address,
-    /* teku-ids=module.teku-instances.*., */
-    teku-ids=module.teku-instances.*.id,
-    })
-
-  filename = "${path.module}/../../../ansible/production"
-
-  depends_on = [
-    module.chaind-instances,
-    module.teku-instances,
-  ]
-}
-
