@@ -1,0 +1,12 @@
+---
+teku_username: 'teku'
+teku_datapath: "/var/lib/teku"
+
+teku_loglevel: "ERROR"
+
+openjdk: 16
+teku_version: 21.8.2
+teku_download_sha256sum: "sha256:cae53aaaefb998c2eb436ca7bb98652c44f224bf35cd0b12d8e3e8c46bf4d221"
+
+teku_restip: 127.0.0.1
+teku_restport: 5021

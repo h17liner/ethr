@@ -1,3 +1,2 @@
-openjdk: 16
-username: 'chaind'
-teku_version: 21.8.2
+---
+teku_download_url: "https://artifacts.consensys.net/public/teku/raw/names/teku.tar.gz/versions/{{ teku_version }}/teku-{{ teku_version }}.tar.gz"

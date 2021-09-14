@@ -1,20 +1,17 @@
 # log-level is the base log level of the process.
 # 'info' should be a suitable log level, unless detailed information is
 # required in which case 'debug' or 'trace' can be used.
-log-level: debug
+log-level: {{ chaind_loglevel }}
 # log-file specifies that log output should go to a file.  If this is not
 # present log output will be to stderr.
-log-file: /var/log/chaind/chaind.log
+log-file: {{ chaind_logfile }}
 chaindb:
   # url is the URL of the PostgreSQL database.
-  url: postgres://{{ chaind_db_username }}:{{ chaindb_password }}@{{ chaind_db_host.instances[0].endpoint.address }}:{{ chaind_db_port }}/{{ chaind_db_name }}
+  url: postgres://{{ chaind_db_username }}:{{ chain_db_password }}@{{ chaind_db_host }}:{{ chaind_db_port }}/{{ chaind_db_name }}
 # eth2client contains configuration for the Ethereum 2 client.
 eth2client:
-  # log-level is the log level of the specific module.  If not present the base log
-  # level will be used.
-  log-level: debug
   # address is the address of the beacon node.
-  address: {{ groups['_teku'] | map('extract', hostvars, ['private_ip_address']) | join(',') }}:{{ teku_restport | default('5051')}}
+  address: {{ teku_restip }}:{{ teku_restport }}
 # eth1client contains configuration for the Ethereum 1 client.
 # eth1client:
 #   # address is the address of the Ethereum 1 node.
@@ -25,7 +22,7 @@ blocks:
   enable: true
   # address is a separate connection for this module.  If not present then
   # chaind will use the eth2client connection.
-  address: {{ groups['_teku'] | map('extract', hostvars, ['private_ip_address']) | join(',') }}:{{ teku_restport }}
+  address: {{ teku_restip }}:{{ teku_restport }}
   # start-slot is the slot from which to start.  chaind should keep track of this itself,
   # however if you wish to start from a later slot this can be set.
   # start-slot: 2000

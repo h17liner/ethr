@@ -1,15 +1,14 @@
 ---
-- name: daemon-reload
-  ansible.builtin.systemd:
-    daemon_reload: yes
-
 - name: enabled-teku
   ansible.builtin.systemd:
     name: teku
+    enabled: trues
+    daemon_reload: true
     state: started
-    enabled: yes
+  become: true
 
 - name: restart-teku
   ansible.builtin.service:
     name: teku
     state: restarted
+  become: true

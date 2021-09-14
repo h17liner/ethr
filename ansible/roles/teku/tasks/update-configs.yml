@@ -1,6 +1,0 @@
-- name: Update config
-  ansible.builtin.template:
-    src: teku.yaml.j2
-    dest: /etc/teku.yaml
-    owner: "{{ username }}"
-    group: "{{ username }}"

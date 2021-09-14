@@ -2,18 +2,16 @@
 metrics-enabled: true
 
 # database
-data-base-path: "/var/lib/teku" 
+data-base-path: "{{ teku_datapath }}"
 data-storage-mode: "archive"
 
 # rest api
 rest-api-enabled: true
-rest-api-port: {{teku_restport}}
-rest-api-interface: "0.0.0.0"
+rest-api-interface: {{ teku_restip }}
+rest-api-port: {{ teku_restport }}
 rest-api-host-allowlist: ["*"]
 rest-api-docs-enabled: true
 
-# http://<interface>:<port>/swagger-ui
-
 # logging
-logging: "DEBUG"
+logging: "{{ teku_loglevel }}"
 log-destination: "DEFAULT_BOTH"

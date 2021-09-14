@@ -1,23 +1,23 @@
+---
 plugin: aws_ec2
 regions:
   - eu-west-2
 
 include_filters:
   - tag:Service:
-    - teku
-    - chaind
+      - teku
+      - chaind
   - tag:Role:
-    - node
+      - node
 # strict: False
 keyed_groups:
   - key: tags['Service']
+    prefix: hosts
 
 compose:
   ansible_port: 22
-  ansible_become: true
   ansible_user: "'ubuntu'"
   ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand=\"sh -c \"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'\"\""
 
 hostnames:
   - instance-id
-

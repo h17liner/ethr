@@ -3,8 +3,8 @@ Description=Chaind stored
 Wants=network-online.target
 After=network-online.target
 [Service]
-User={{ username }}
-Group={{ username }}
+User={{ chaind_username }}
+Group={{ chaind_username }}
 Type=simple
 Restart=always
 RestartSec=5

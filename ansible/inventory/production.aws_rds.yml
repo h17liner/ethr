@@ -1,0 +1,15 @@
+---
+plugin: aws_rds
+regions:
+  - eu-west-2
+
+include_filters:
+  - tag:Service:
+      - chaind
+  - tag:Role:
+      - db
+
+keyed_groups:
+  - key: tags['Role']
+    prefix: chaind
+

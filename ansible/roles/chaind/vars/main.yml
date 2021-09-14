@@ -1,13 +1,4 @@
-username: 'chaind'
-chaind_version: 0.3.5
+---
+chaind_download_url: "https://github.com/wealdtech/chaind/releases/download/v{{ chaind_version }}/chaind-{{ chaind_version }}-linux-amd64.tar.gz"
+chaind_download_sha256sum: "sha256:https://github.com/wealdtech/chaind/releases/download/v{{ chaind_version }}/chaind-{{ chaind_version }}-linux-amd64.tar.gz.sha256"
 
-chaind_db_port: 5432
-chaind_db_name: chaindb
-chaind_db_username: chaindb
-chaindb_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          36633539333332636335616139343931646630666438376561363230373263373264306532356434
-          3031646430613264616435626464663763366166623335370a643037323162613631356437353339
-          64313266616464626366386330666663636363313236373239366362306263663033623163643466
-          3739373464343032370a396433323634633965353836623330303730376664303966316536633138
-          6561
