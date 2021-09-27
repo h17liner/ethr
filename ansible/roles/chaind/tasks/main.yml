@@ -1,38 +1,82 @@
 ---
 - name: create group
   ansible.builtin.group:
-    name: "{{ username }}"
+    name: "{{ chaind_username }}"
     state: present
+  become: true
 
 - name: create user
   ansible.builtin.user:
-    name: "{{ username }}"
-    group: "{{ username }}"
+    name: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
     create_home: false
     state: present
-
+    system: true
+  become: true
 
 - name: Create config directory
   ansible.builtin.file:
     path: /etc/chaind
     state: directory
-    recurse: yes
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    recurse: true
+    owner: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
+    mode: 0755
+  become: true
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: /var/lib/chaind
+    state: directory
+    recurse: true
+    owner: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
+    mode: 0755
+  become: true
 
 - name: Create logs directory
   ansible.builtin.file:
     path: /var/log/chaind
     state: directory
-    recurse: yes
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    recurse: true
+    owner: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
+    mode: 0755
+  become: true
 
-- name: install binary
-  include_tasks: update-binary.yml
+- name: download binary
+  get_url:
+    url: "{{ chaind_download_url }}"
+    checksum: "{{ chaind_download_sha256sum }}"
+    dest: /var/lib/chaind/chaind-{{ chaind_version }}.tar.gz
+  become: true
 
-- name: update configs
-  include_tasks: update-configs.yml
+- name: unpack
+  ansible.builtin.unarchive:
+    src: /var/lib/chaind/chaind-{{ chaind_version }}.tar.gz
+    dest: /usr/local/bin/
+    remote_src: true
+  become: true
 
-- name: update services
-  include_tasks: update-services.yml
+- name: Update config
+  ansible.builtin.template:
+    src: chaind.yml.j2
+    dest: /etc/chaind/chaind.yaml
+    owner: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
+    mode: 0644
+  become: true
+  notify:
+    - restart-chaind
+
+- name: Update service
+  ansible.builtin.template:
+    src: chaind.service.j2
+    dest: /lib/systemd/system/chaind.service
+    owner: "{{ chaind_username }}"
+    group: "{{ chaind_username }}"
+    mode: 0644
+  become: true
+  notify:
+    - enabled-chaind
+    - restart-chaind

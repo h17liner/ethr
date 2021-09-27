@@ -1,0 +1,12 @@
+---
+chaind_username: 'chaind'
+chaind_version: 0.3.5
+
+chaind_db_port: 5432
+chaind_db_name: chaindb
+chaind_db_username: chaindb
+
+chaind_logfile: '/var/log/chaind/chaind.log'
+chaind_loglevel: 'info'
+
+teku_restport: 5021

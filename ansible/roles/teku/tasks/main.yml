@@ -1,38 +1,77 @@
 ---
 - name: create group
   ansible.builtin.group:
-    name: "{{ username }}"
+    name: "{{ teku_username }}"
     state: present
+  become: true
 
 - name: create user
   ansible.builtin.user:
-    name: "{{ username }}"
-    group: "{{ username }}"
+    name: "{{ teku_username }}"
+    group: "{{ teku_username }}"
     create_home: false
     state: present
+    system: true
+  become: true
 
 - name: install openjdk-jre
   apt:
-    name: openjdk-{{openjdk}}-jre
-    update_cache: yes
+    name: openjdk-{{ openjdk }}-jre
+    update_cache: true
     state: present
+  become: true
 
 - name: Create a directory if it does not exist
   ansible.builtin.file:
-    path: /var/lib/teku
+    path: "{{ teku_datapath }}"
     state: directory
-    recurse: yes
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    recurse: true
+    owner: "{{ teku_username }}"
+    group: "{{ teku_username }}"
+    mode: 0755
+  become: true
 
+- name: download binary
+  get_url:
+    url: "{{ teku_download_url }}"
+    checksum: "{{ teku_download_sha256sum }}"
+    dest: "{{ teku_datapath }}/teku-{{ teku_version }}.tar.gz"
+  become: true
 
-- name: install binary
-  include_tasks: update-binary.yml
+- name: unpack
+  ansible.builtin.unarchive:
+    src: "{{ teku_datapath }}/teku-{{ teku_version }}.tar.gz"
+    dest: /usr/local/
+    remote_src: true
+  become: true
 
-- name: update configs
-  include_tasks: update-configs.yml
+- name: make current
+  ansible.builtin.file:
+    src: /usr/local/teku-{{ teku_version }}
+    dest: /usr/local/teku
+    mode: 0644
+    state: link
+  become: true
 
-- name: update services
-  include_tasks: update-services.yml
+- name: Update config
+  ansible.builtin.template:
+    src: teku.yaml.j2
+    dest: /etc/teku.yaml
+    owner: "{{ teku_username }}"
+    group: "{{ teku_username }}"
+    mode: 0644
+  become: true
+  notify:
+    - restart-teku
 
-  
+- name: Update service
+  ansible.builtin.template:
+    src: teku.service.j2
+    dest: /lib/systemd/system/teku.service
+    owner: "{{ teku_username }}"
+    group: "{{ teku_username }}"
+    mode: 0644
+  become: true
+  notify:
+    - enabled-teku
+    - restart-teku

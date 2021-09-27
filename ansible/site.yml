@@ -1,0 +1,19 @@
+---
+- name: Setup teku
+  hosts: hosts_teku
+  gather_facts: true
+
+  roles:
+    - role: teku
+      tags: teku
+
+- name: Setup chaind
+  hosts: hosts_chaind
+  gather_facts: true
+  vars:
+    chaind_db_host: "{{ hostvars[groups['chaind_db'][0]].endpoint.address }}"
+    teku_restip: "{{ hostvars[groups['hosts_teku'][0]].private_ip_address }}"
+
+  roles:
+    - role: chaind
+      tags: chaind

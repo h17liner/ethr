@@ -1,0 +1,2 @@
+---
+chain_db_password:  "{{ lookup('env', 'CHAINDB_PASSWORD') }}"

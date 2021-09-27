@@ -3,8 +3,8 @@ Description=Teku Eth2 Client
 Wants=network-online.target
 After=network-online.target
 [Service]
-User={{ username }}
-Group={{ username }}
+User={{ teku_username }}
+Group={{ teku_username }}
 Type=simple
 Restart=always
 RestartSec=5
